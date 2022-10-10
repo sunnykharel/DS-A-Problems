@@ -4,6 +4,7 @@ class Solution:
         subsetList = []
         def subsets(depth, numbers):
             if depth == n:
+                print(numbers)
                 subsetList.append(list(numbers))
             elif depth<n:
                 numbers.append(nums[depth])

@@ -1,41 +1,44 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        longest = 0
-        longest_str = ''
+        '''
+        1. brute force
+            for every string go as far as you can in both directions,
+            note the farthest, i.e. longest palindrome
+            O(n^2)
+            
+            boundary i-j>0 and i+j<=len(s)
+            
+            you can also do an even palindrome as well
+        '''
+        longest=1
+        beg, end = 0,0
+        
         for i in range(len(s)):
-            #even palindrome
-            l,r = i, i+1
-            count_even = 0
-            while 0<=l and r<len(s) and s[l]==s[r]:
-                count_even+=1
+            l = i-1
+            r = i+1
+            while( l>=0 and r<len(s)  and s[l]==s[r]):
                 l-=1
                 r+=1
-                
-            even_length = 2*count_even
-            if even_length>longest:
-                longest_str = s[l+1: r]
-                longest=even_length
-            
-            # odd palindrome
-            l, r = i-1, i+1
-            count_odd = 0
-            while 0<=l and r<len(s) and s[l]==s[r]:
-                count_odd+=1
+            l+=1
+            r-=1
+            if r - l +1 > longest:
+                longest = r-l+1
+                beg,end = l, r
+
+            l = i
+            r = i+1
+            while(l>=0 and r<len(s)  and s[l]==s[r]):
                 l-=1
                 r+=1
-            odd_length = 2*count_odd+1
-            if odd_length>longest:
-                longest_str = s[l+1: r]
-                longest=odd_length
-                
-                
-                
-        return longest_str
+            l+=1
+            r-=1
+            if r - l +1 > longest:
+                longest = r-l+1
+                beg,end = l, r
+            
+        return s[beg:end+1]
+
+    
                 
             
-                
-                
-            
-            #odd palindrome
-            
-            
+        

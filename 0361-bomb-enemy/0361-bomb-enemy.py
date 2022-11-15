@@ -56,7 +56,7 @@ class Solution:
                 set_down_value(row,col)
                 set_right_value(row,col)
         
-        opts = [[-1 for _ in range(cols)] for _ in range(rows)]
+        # opts = [[-1 for _ in range(cols)] for _ in range(rows)]
         max_hits = 0
                 
         for row in range(rows):
@@ -76,7 +76,7 @@ class Solution:
                     coord_max_hits += memo[row][col][right]
                 if can_left:
                     coord_max_hits += memo[row][col][left]
-                opts[row][col] = coord_max_hits
+                # opts[row][col] = coord_max_hits
                 max_hits = max(coord_max_hits, max_hits)
             
         expected = [

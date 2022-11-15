@@ -47,26 +47,21 @@ class Solution:
 
         for row in range(0,rows):
             for col in range(0,cols):
-                #get ups and lefts
-                # up
                 set_up_value(row, col)
                 set_left_value(row,col)
         for row in range(rows-1, -1, -1):
             for col in range(cols-1, -1, -1):
                 set_down_value(row,col)
                 set_right_value(row,col)
-        
-        # opts = [[-1 for _ in range(cols)] for _ in range(rows)]
+
         max_hits = 0
-                
         for row in range(rows):
             for col in range(cols):
-                can_up, can_down = row > 0, row < rows-1
-                can_left, can_right = col > 0, col < cols - 1
-                coord_max_hits = 0
                 is_not_empty_coord = grid[row][col] != '0'
                 if is_not_empty_coord:
                     continue
+                can_up, can_down = row > 0, row < rows-1
+                can_left, can_right = col > 0, col < cols - 1
                 coord_max_hits = 0
                 if can_up:
                     coord_max_hits += memo[row][col][up]
@@ -76,11 +71,5 @@ class Solution:
                     coord_max_hits += memo[row][col][right]
                 if can_left:
                     coord_max_hits += memo[row][col][left]
-                # opts[row][col] = coord_max_hits
                 max_hits = max(coord_max_hits, max_hits)
-            
-        expected = [
-            [0,1,1,0], [1,1,2,1], [0,0,0,1], [0, 0, 1, 1]
-            
-        ]
         return max_hits

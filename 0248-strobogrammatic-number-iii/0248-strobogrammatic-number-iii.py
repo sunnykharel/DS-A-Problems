@@ -71,7 +71,7 @@ class Solution:
             prev = curr
             curr = []
         # print(res)
-        return sorted(filter(self.is_valid_number, res))
+        return (filter(self.is_valid_number, res))
         
         
     def falls_in_range(self, number: str):

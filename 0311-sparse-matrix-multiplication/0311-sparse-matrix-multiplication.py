@@ -6,8 +6,7 @@ class Solution:
         
         for r in range(rows):
             for c in range(cols):
-                for k in range(len(mat2)):
-                    result[r][c] += mat1[r][k]*mat2[k][c]
+                result[r][c] += sum(mat1[r][k]*mat2[k][c] for k in range(len(mat2)))
                 # row = mat1[r]
                 # col = [mat2[k][c] for k in range(len(mat2))]
                 # value = sum(rc_vals[0]*rc_vals[1] for rc_vals in zip(row, col))

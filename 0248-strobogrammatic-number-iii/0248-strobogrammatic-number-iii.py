@@ -7,61 +7,16 @@ class Solution:
         self.non_strobo = {'2', '3', '4', '5', '7'}
         self.low, self.high = 0, 0
 
-    def is_strobogrammatic(self, num: list) -> bool:
-        n = len(num)
-        for i in range(n//2 + 1):
-            l, r = num[i], num[-(i+1)]
-            if l in self.non_strobo or r in self.non_strobo:
-                return False
-            if self.strobo_pairs[l] != r or self.strobo_pairs[r] != l:
-                return False
-        return True
-
-    def is_valid_number(self, number: str):
-        return len(str(int(number))) == len(number)
-    
-    def findStroboBfsSizeRange(self, n: int) -> List[str]:
-        result = []
-        prev = []
-        curr = []
-        start = 0
-        if n%2 == 0:
-            start = 4 
-            for key, val in self.strobo_pairs.items():
-                prev.append(f'{key}{val}')
-        else:
-            start = 3
-            for key, val in self.strobo_pairs.items():
-                if key==val:
-                    prev.append(key)
-
-        for size in range(start, n+1, 2):
-            for node in prev:
-                for l, r in self.strobo_pairs.items():
-                    curr.append(l+node+r)
-            prev = curr
-            curr = []
-
-        return sorted(filter(self.is_valid_number, prev))
+    def is_valid_number_in_range(self, number: str):
+        return len(str(int(number))) == len(number) \
+            and self.low <= int(number) <= self.high
 
     def findStroboNumsInSizeRange(self, n):
-        # We want to find both even length strobos as well as odd length strobos
-        # so we must keep track of even strobo nums as well as odd
-        # we stop at the size len(high)
-        # if number even:
-        #   even stops at len(high), odd stops at len(high) -1
-        # if number odd:
-        #   even stops at len(high) -1 and odd stops at len(high)
         res = []
-        even_prev, even_curr = [f'{kv[0]}{kv[1]}' for kv in self.strobo_pairs.items()], []
-        odd_prev, odd_curr = [kv[0] for kv in self.strobo_pairs.items() if kv[0]==kv[1]], []
-        
+        even_prev = [f'{kv[0]}{kv[1]}' for kv in self.strobo_pairs.items()]
+        odd_prev = [kv[0] for kv in self.strobo_pairs.items() if kv[0]==kv[1]]
         prev, curr = even_prev+odd_prev, []
-        start = 0
-        if n%2 == 0:
-            start = 4
-        else:
-            start = 3
+        start = 4 if n%2 == 0 else 3
         res.extend(prev)
         for size in range(start, n+1, 2):
             for node in prev:
@@ -70,22 +25,16 @@ class Solution:
             res.extend(curr)
             prev = curr
             curr = []
-        # print(res)
-        return (filter(self.is_valid_number, res))
-        
-        
-    def falls_in_range(self, number: str):
-        # print(self.low, self.high, number)
-        return self.low <= int(number) <= self.high
+        return list(filter(self.is_valid_number_in_range, res))
+
+    
+
 
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:
-        # step 1: get the size range of strobogrammatic numbers we want to generate
-        #   - range(len(low), len(high) + 1)
         self.low, self.high = int(low), int(high)
         n = len(high)
-        strobo_nums = self.findStroboNumsInSizeRange(n)
-
-        return len(list(filter(self.falls_in_range,strobo_nums)))
+        strobo_nums_in_range = self.findStroboNumsInSizeRange(n)
+        return len(strobo_nums_in_range)
 
         

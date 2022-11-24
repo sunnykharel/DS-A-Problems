@@ -21,18 +21,6 @@ class Solution:
     
     
     def findStroboBfs(self, n: int) -> List[str]:
-        
-        '''
-            we will do BFS plus dynamic programming
-            000   010
-            101   111
-            609   619
-            808   818
-            906   916
-            etc
-            we have to maintain a queue where each combo would be a node
-            each row of the tree would have n-sized combos
-        '''
         prev = []
         curr = []
         start = 0

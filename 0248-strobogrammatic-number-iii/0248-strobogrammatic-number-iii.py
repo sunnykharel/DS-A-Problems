@@ -13,26 +13,31 @@ class Solution:
             and self.low <= int_number <= self.high
 
     def findStroboNumsInSizeRange(self, n):
+        count = 0
         res = []
         even_prev = [f'{kv[0]}{kv[1]}' for kv in self.strobo_pairs.items()]
         odd_prev = [kv[0] for kv in self.strobo_pairs.items() if kv[0]==kv[1]]
         prev, curr = even_prev+odd_prev, []
         start = 4 if n%2 == 0 else 3
-        res.extend(prev)
+        for number in prev:
+            if self.is_valid_number_in_range(number):
+                count+=1
+
         for size in range(start, n+1, 2):
             for node in prev:
                 for l, r in self.strobo_pairs.items():
-                    curr.append(l+node+r)
-                    # res.append(l+node+r)
-            res.extend(curr)
+                    number = l+node+r
+                    curr.append(number)
+                    if self.is_valid_number_in_range(number):
+                        count+=1
             prev = curr
             curr = []
-        return list(filter(self.is_valid_number_in_range, res))
+        return count
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:
         self.low, self.high = int(low), int(high)
         n = len(high)
         strobo_nums_in_range = self.findStroboNumsInSizeRange(n)
-        return len(strobo_nums_in_range)
+        return strobo_nums_in_range
 
         

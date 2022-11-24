@@ -70,7 +70,7 @@ class Solution:
             res.extend(curr)
             prev = curr
             curr = []
-        print(res)
+        # print(res)
         return sorted(filter(self.is_valid_number, res))
         
         

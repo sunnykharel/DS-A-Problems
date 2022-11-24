@@ -42,8 +42,9 @@ class Solution:
                 prev.append(f'{key}{val}')
         else:
             start = 3
-            for key in ['0','1','8']:
-                prev.append(key)
+            for key, val in self.strobo_pairs.items():
+                if key==val:
+                    prev.append(key)
         
         for size in range(start, n+1, 2):
             for node in prev:

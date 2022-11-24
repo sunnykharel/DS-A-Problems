@@ -22,7 +22,7 @@ class Solution:
         permutations = []
         self.recursion(0, digits, n, permutations)
         return permutations
-        
+
     def recursion(self, idx, digits, n, permutations):
         reach_end = (
             ((n%2==0) and idx == n//2) or ((n%2==1) and idx == n//2+1)   
@@ -40,18 +40,6 @@ class Solution:
 
         digits[idx], digits[-(idx+1)] = 0, 0
         return
-    
-    
-    '''
-    4//2 = 2: 0,1
-    5//2 = 2: 0, 1, 2, 3, 4
-    2, -(2+1) = -3
-    if (n%2 == 1) and n == n//2:
-        only go once
-        
-        we can do some type of dynamic programming to memoize
-    
-    '''
             
             
         

@@ -23,16 +23,25 @@ class Solution:
             if self.is_valid_number_in_range(number):
                 count+=1
         
-
-        for size in range(start, n+1, 2):
-            for node in prev:
-                for l, r in self.strobo_pairs.items():
-                    number = l+node+r
-                    curr.append(number)
-                    if self.is_valid_number_in_range(number):
-                        count+=1
-            prev = curr
-            curr = []
+        q = collections.deque(prev)
+        while len(q) > 0:
+            node = q.popleft()
+            for l,r in self.strobo_pairs.items():
+                number = l+node+r
+                if self.is_valid_number_in_range(number):
+                    count += 1
+                if len(number) <= n-2:
+                    q.append(number)
+                
+        # for size in range(start, n+1, 2):
+        #     for node in prev:
+        #         for l, r in self.strobo_pairs.items():
+        #             number = l+node+r
+        #             curr.append(number)
+        #             if self.is_valid_number_in_range(number):
+        #                 count+=1
+        #     prev = curr
+        #     curr = []
         return count
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:

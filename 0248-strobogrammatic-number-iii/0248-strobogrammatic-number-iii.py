@@ -85,11 +85,7 @@ class Solution:
         self.low, self.high = int(low), int(high)
         n = len(high)
         strobo_nums = self.findStroboNumsInSizeRange(n)
-        if 0 <= int(low) <= 9 and 0 <= int(high) <= 9:
-            # print('here')
-            return len(list(filter(self.falls_in_range,['0', '1', '8'])))
-        if (low,high) in [('0', '0'), ('1', '1'), ('8', '8')]:
-            return 1
+
         return len(list(filter(self.falls_in_range,strobo_nums)))
         
         # step 2: given the range of sizes, we want to find all strobo numbers with sizes within the given range

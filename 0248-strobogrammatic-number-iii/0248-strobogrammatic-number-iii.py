@@ -24,9 +24,7 @@ class Solution:
             if len(node) > n-2:
                 continue
             for l,r in self.strobo_pairs.items():
-                number = l+node+r
-                if len(number) <= n:
-                    q.append(number)
+                q.append(l+node+r)
         return count
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:

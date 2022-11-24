@@ -8,8 +8,9 @@ class Solution:
         self.low, self.high = 0, 0
 
     def is_valid_number_in_range(self, number: str):
-        return len(str(int(number))) == len(number) \
-            and self.low <= int(number) <= self.high
+        int_number = int(number)
+        return len(str(int_number)) == len(number) \
+            and self.low <= int_number <= self.high
 
     def findStroboNumsInSizeRange(self, n):
         res = []
@@ -26,10 +27,6 @@ class Solution:
             prev = curr
             curr = []
         return list(filter(self.is_valid_number_in_range, res))
-
-    
-
-
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:
         self.low, self.high = int(low), int(high)

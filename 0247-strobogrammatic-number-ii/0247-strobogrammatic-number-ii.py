@@ -15,13 +15,50 @@ class Solution:
             if self.strobo_pairs[l] != r or self.strobo_pairs[r] != l:
                 return False
         return True
+
+    def is_valid_number(self, number: str):
+        return len(str(int(number))) == len(number)
     
     
+    def findStroboBfs(self, n: int) -> List[str]:
+        
+        '''
+            we will do BFS plus dynamic programming
+            000   010
+            101   111
+            609   619
+            808   818
+            906   916
+            etc
+            we have to maintain a queue where each combo would be a node
+            each row of the tree would have n-sized combos
+        '''
+        prev = []
+        curr = []
+        start = 0
+        if n%2 == 0:
+            start = 4 
+            for key, val in self.strobo_pairs.items():
+                prev.append(f'{key}{val}')
+        else:
+            start = 3
+            for key in ['0','1','8']:
+                prev.append(key)
+        
+        for size in range(start, n+1, 2):
+            for node in prev:
+                for l, r in self.strobo_pairs.items():
+                    curr.append(l+node+r)
+            prev = curr
+            curr = []
+        return sorted(filter(self.is_valid_number, prev))
+
+
     def findStrobogrammatic(self, n: int) -> List[str]:
-        digits = [0 for _ in range(n)]
-        permutations = []
-        self.recursion(0, digits, n, permutations)
-        return permutations
+        # digits = [0 for _ in range(n)]
+        # permutations = []
+        # self.recursion(0, digits, n, permutations)
+        return self.findStroboBfs(n)
 
     def recursion(self, idx, digits, n, permutations):
         reach_end = (

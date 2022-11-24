@@ -14,34 +14,19 @@ class Solution:
 
     def findStroboNumsInSizeRange(self, n):
         count = 0
-        res = []
-        even_prev = [f'{kv[0]}{kv[1]}' for kv in self.strobo_pairs.items()]
-        odd_prev = [kv[0] for kv in self.strobo_pairs.items() if kv[0]==kv[1]]
-        prev, curr = even_prev+odd_prev, []
-        start = 4 if n%2 == 0 else 3
-        for number in prev:
-            if self.is_valid_number_in_range(number):
-                count+=1
-        
-        q = collections.deque(prev)
+        even_inits = [f'{kv[0]}{kv[1]}' for kv in self.strobo_pairs.items()]
+        odd_inits = [kv[0] for kv in self.strobo_pairs.items() if kv[0]==kv[1]]
+        q = collections.deque(even_inits+odd_inits)
         while len(q) > 0:
             node = q.popleft()
+            if self.is_valid_number_in_range(node):
+                count += 1
+            if len(node) > n-2:
+                continue
             for l,r in self.strobo_pairs.items():
                 number = l+node+r
-                if self.is_valid_number_in_range(number):
-                    count += 1
-                if len(number) <= n-2:
+                if len(number) <= n:
                     q.append(number)
-                
-        # for size in range(start, n+1, 2):
-        #     for node in prev:
-        #         for l, r in self.strobo_pairs.items():
-        #             number = l+node+r
-        #             curr.append(number)
-        #             if self.is_valid_number_in_range(number):
-        #                 count+=1
-        #     prev = curr
-        #     curr = []
         return count
 
     def strobogrammaticInRange(self, low: str, high: str) -> int:

@@ -23,7 +23,8 @@ class Solution:
             for node in prev:
                 for l, r in self.strobo_pairs.items():
                     curr.append(l+node+r)
-            res.extend(curr)
+                    res.append(l+node+r)
+            # res.extend(curr)
             prev = curr
             curr = []
         return list(filter(self.is_valid_number_in_range, res))

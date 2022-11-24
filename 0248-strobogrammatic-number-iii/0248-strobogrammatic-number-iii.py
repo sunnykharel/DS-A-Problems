@@ -87,9 +87,5 @@ class Solution:
         strobo_nums = self.findStroboNumsInSizeRange(n)
 
         return len(list(filter(self.falls_in_range,strobo_nums)))
-        
-        # step 2: given the range of sizes, we want to find all strobo numbers with sizes within the given range
-        #   - create a function called findStroboNumsInSizeRange
-        # step 3: Filter the result of step 2 for numbers with values in range(int(low), int(high))
-        # step 4: return the result
+
         

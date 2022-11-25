@@ -67,8 +67,6 @@ class Solution:
         for zero_coord, distances in self.distance_to_ones.items():
             if grid[zero_coord[0]][zero_coord[1]] != -(bfs_number+1):
                 continue
-            if len(distances) != len(coords_with_ones):
-                continue
             distance = sum(val for val in distances.values())
             if min_distance == -1:
                 min_distance = distance

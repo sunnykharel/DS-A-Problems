@@ -2,6 +2,7 @@ class Solution:
     def __init__(self):
         self.grid, self.n, self.m = None, None, None
         self.distance_to_ones = collections.defaultdict(dict)
+        self.coord_to_valid_neighbors = None
 
     def coords_with_ones(self):
         coords = []
@@ -28,22 +29,32 @@ class Solution:
             for node in prev:
                 if node!=coord_with_one:
                     self.distance_to_ones[node][coord_with_one] = bfs_level
-                x, y = node
-                neighbors = [(x+1, y), (x-1, y), (x, y-1), (x, y+1)]
-                for n in neighbors:
-                    if self.coord_in_bounds_and_is_zero(n):
-                        if n not in visited:
-                            curr.append(n)
-                            visited.add(n)
+                for n in self.coord_to_valid_neighbors[node]:
+                    if n not in visited:
+                        curr.append(n)
+                        visited.add(n)
             prev = curr
             curr = []
             bfs_level += 1
+    
+    def generate_valid_neighbords(self, grid):
+        valid_neighbors = collections.defaultdict(list)
+        for x in range(self.n):
+            for y in range(self.m):
+                neighs = [(x+1, y), (x-1, y), (x, y-1), (x, y+1)]
+                for neigh in neighs:
+                    if self.coord_in_bounds_and_is_zero(neigh):
+                        valid_neighbors[(x,y)].append(neigh)
+        return valid_neighbors
+                        
+                
 
     def shortestDistance(self, grid: List[List[int]]) -> int:
         self.grid = grid
         self.n, self.m = len(grid), len(grid[0])
-        
         coords_with_ones = self.coords_with_ones()
+        
+        self.coord_to_valid_neighbors = self.generate_valid_neighbords(grid)
 
         for coord_with_one in coords_with_ones:
             self.calc_distance_to_single_coord_with_one(coord_with_one)

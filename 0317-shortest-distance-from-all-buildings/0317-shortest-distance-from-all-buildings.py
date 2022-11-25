@@ -21,6 +21,7 @@ class Solution:
         q = collections.deque()
         q.append(node)
         visited = { node: 0 }
+
         
         while len(q) > 0:
             node = q.popleft()
@@ -31,7 +32,7 @@ class Solution:
                     self.distance_to_ones[n] += (parent_level+1)
                     visited[n] = parent_level + 1
                     q.append(n)
-
+    
     def generate_valid_neighbords(self, grid):
         valid_neighbors = collections.defaultdict(list)
         for x in range(self.n):

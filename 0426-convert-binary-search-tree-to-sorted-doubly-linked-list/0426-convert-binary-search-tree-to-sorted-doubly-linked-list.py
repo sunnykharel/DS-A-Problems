@@ -19,9 +19,8 @@ class Solution:
         prev.right = start
         start.left = prev
         return start
-        
-    def in_order_traversal(self, root):
-        # as we do inorder, we create bi-link between prev and curr
+
+    def in_order_traversal_to_ll(self, root):
         stack = collections.deque()
         curr = root
         prev = None
@@ -39,41 +38,9 @@ class Solution:
                 prev.right = curr
                 prev = curr
             curr = curr.right
-        
-        return self.make_ll_doubly_linked(start)
-    def in_order_traversal_recursive(self, root):
-        if root:
-            self.in_order_traversal_recursive(root.left)
-            print(root.val)
-            self.in_order_traversal_recursive(root.right)
+        return start
 
-        
-        
     def treeToDoublyList(self, root: 'Optional[Node]') -> 'Optional[Node]':
-        return self.in_order_traversal(root)
-        # 1. in-order traversal to get the correct order of nodes
-        # as you do in order, you create the LL, as you iterate
-        #   BC Q calls for in-place, we must do iteratively
-        '''
-                4
-              /.  \
-             2     5
-            / \.  
-           1   3
-        '''
-        
-        # How to do an in-order traversal recursively
-            # choose(node.left)
-            # choose(node)
-            # choose(node.right)
-        # iteratively, it calls for using a stack
-            # if the node has a left
-                # pop node onto stack
-                # iterate left
-            # if the node doesn't have a left
-                #then you print
-            # 
-            # pop node onto stack
-            # go left
-        # whenever you pop a node for which you've gone left already
-        # how do you know that you haven't gone left already?
+        in_order_ll = self.in_order_traversal_to_ll(root)
+        in_order_doubly_ll = self.make_ll_doubly_linked(in_order_ll)
+        return in_order_doubly_ll

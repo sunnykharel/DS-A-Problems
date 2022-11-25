@@ -20,23 +20,33 @@ class Solution:
         node = coord_with_one
         q = collections.deque()
         q.append(node)
-        visited = { node }
+        visited = { node: 0 }
 
-        bfs_level = 0
+        bfs_level = 1
         prev = [ node ]
         curr = []
-        while len(prev) > 0:
-            for node in prev:
-                if node!=coord_with_one:
-                    self.distance_to_ones[node] += bfs_level
-                for n in self.coord_to_valid_neighbors[node]:
-                    if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
-                        self.grid[n[0]][n[1]] -= 1
-                        curr.append(n)
-                        visited.add(n)
-            prev = curr
-            curr = []
-            bfs_level += 1
+        
+        while len(q) > 0:
+            node = q.popleft()
+            parent_level = visited[node]
+            for n in self.coord_to_valid_neighbors[node]:
+                if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
+                    self.grid[n[0]][n[1]] -= 1
+                    self.distance_to_ones[n] += (parent_level+1)
+                    visited[n] = parent_level + 1
+                    q.append(n)
+        # while len(prev) > 0:
+        #     for node in prev:
+        #         if node!=coord_with_one:
+        #             self.distance_to_ones[node] += bfs_level
+        #         for n in self.coord_to_valid_neighbors[node]:
+        #             if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
+        #                 self.grid[n[0]][n[1]] -= 1
+        #                 curr.append(n)
+        #                 visited.add(n)
+        #     prev = curr
+        #     curr = []
+        #     bfs_level += 1
     
     def generate_valid_neighbords(self, grid):
         valid_neighbors = collections.defaultdict(list)

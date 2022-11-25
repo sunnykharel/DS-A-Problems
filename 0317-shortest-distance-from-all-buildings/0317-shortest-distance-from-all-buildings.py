@@ -2,7 +2,7 @@ class Solution:
     def __init__(self):
         self.grid, self.n, self.m = None, None, None
         self.distance_to_ones = collections.defaultdict(int)
-        self.coord_to_valid_neighbors = None
+        self.dirs = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
     def coords_with_ones(self):
         coords = []
@@ -12,36 +12,36 @@ class Solution:
                     coords.append((i,j))
         return coords
     
-    def coord_in_bounds_and_is_zero(self, coord):
+    def coord_in_bounds_and_matches_value(self, coord, value):
         x, y = coord
-        return 0 <= x < self.n and 0 <= y < self.m and self.grid[x][y] == 0
+        return 0 <= x < self.n and 0 <= y < self.m and self.grid[x][y] == value
 
     def calc_distance_to_single_coord_with_one(self, coord_with_one, bfs_number):
         node = coord_with_one
         q = collections.deque()
         q.append(node)
         visited = { node: 0 }
-
         
         while len(q) > 0:
             node = q.popleft()
             parent_level = visited[node]
-            for n in self.coord_to_valid_neighbors[node]:
-                if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
+            for dir in self.dirs:
+                n = (node[0]+dir[0], node[1]+dir[1])
+                if self.coord_in_bounds_and_matches_value(n, -bfs_number) and n not in visited:
                     self.grid[n[0]][n[1]] -= 1
                     self.distance_to_ones[n] += (parent_level+1)
                     visited[n] = parent_level + 1
                     q.append(n)
-    
-    def generate_valid_neighbords(self, grid):
-        valid_neighbors = collections.defaultdict(list)
-        for x in range(self.n):
-            for y in range(self.m):
-                neighs = [(x+1, y), (x-1, y), (x, y-1), (x, y+1)]
-                for neigh in neighs:
-                    if self.coord_in_bounds_and_is_zero(neigh):
-                        valid_neighbors[(x,y)].append(neigh)
-        return valid_neighbors
+
+    # def generate_valid_neighbords(self, grid):
+    #     valid_neighbors = collections.defaultdict(list)
+    #     for x in range(self.n):
+    #         for y in range(self.m):
+    #             neighs = [(x+1, y), (x-1, y), (x, y-1), (x, y+1)]
+    #             for neigh in neighs:
+    #                 if self.coord_in_bounds_and_is_zero(neigh):
+    #                     valid_neighbors[(x,y)].append(neigh)
+    #     return valid_neighbors
                         
                 
 
@@ -50,7 +50,7 @@ class Solution:
         self.n, self.m = len(grid), len(grid[0])
         coords_with_ones = self.coords_with_ones()
         
-        self.coord_to_valid_neighbors = self.generate_valid_neighbords(grid)
+        # self.coord_to_valid_neighbors = self.generate_valid_neighbords(grid)
         
         for bfs_number, coord_with_one in enumerate(coords_with_ones):
             self.calc_distance_to_single_coord_with_one(

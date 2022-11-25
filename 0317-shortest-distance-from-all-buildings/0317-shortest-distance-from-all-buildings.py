@@ -16,7 +16,7 @@ class Solution:
         x, y = coord
         return 0 <= x < self.n and 0 <= y < self.m and self.grid[x][y] == 0
 
-    def calc_distance_to_single_coord_with_one(self, coord_with_one):
+    def calc_distance_to_single_coord_with_one(self, coord_with_one, bfs_number):
         node = coord_with_one
         q = collections.deque()
         q.append(node)
@@ -30,7 +30,8 @@ class Solution:
                 if node!=coord_with_one:
                     self.distance_to_ones[node][coord_with_one] = bfs_level
                 for n in self.coord_to_valid_neighbors[node]:
-                    if n not in visited:
+                    if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
+                        self.grid[n[0]][n[1]] -= 1
                         curr.append(n)
                         visited.add(n)
             prev = curr
@@ -55,9 +56,12 @@ class Solution:
         coords_with_ones = self.coords_with_ones()
         
         self.coord_to_valid_neighbors = self.generate_valid_neighbords(grid)
-
-        for coord_with_one in coords_with_ones:
-            self.calc_distance_to_single_coord_with_one(coord_with_one)
+        
+        for bfs_number, coord_with_one in enumerate(coords_with_ones):
+            self.calc_distance_to_single_coord_with_one(
+                coord_with_one,
+                bfs_number
+            )
 
         min_distance = -1
         for zero_coord, distances in self.distance_to_ones.items():

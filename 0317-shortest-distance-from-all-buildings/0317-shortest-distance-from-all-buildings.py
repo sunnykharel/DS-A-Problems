@@ -1,7 +1,7 @@
 class Solution:
     def __init__(self):
         self.grid, self.n, self.m = None, None, None
-        self.distance_to_ones = collections.defaultdict(dict)
+        self.distance_to_ones = collections.defaultdict(int)
         self.coord_to_valid_neighbors = None
 
     def coords_with_ones(self):
@@ -28,7 +28,7 @@ class Solution:
         while len(prev) > 0:
             for node in prev:
                 if node!=coord_with_one:
-                    self.distance_to_ones[node][coord_with_one] = bfs_level
+                    self.distance_to_ones[node] += bfs_level
                 for n in self.coord_to_valid_neighbors[node]:
                     if n not in visited and self.grid[n[0]][n[1]] == -bfs_number:
                         self.grid[n[0]][n[1]] -= 1
@@ -64,10 +64,9 @@ class Solution:
             )
 
         min_distance = -1
-        for zero_coord, distances in self.distance_to_ones.items():
+        for zero_coord, distance in self.distance_to_ones.items():
             if grid[zero_coord[0]][zero_coord[1]] != -(bfs_number+1):
                 continue
-            distance = sum(val for val in distances.values())
             if min_distance == -1:
                 min_distance = distance
             else:

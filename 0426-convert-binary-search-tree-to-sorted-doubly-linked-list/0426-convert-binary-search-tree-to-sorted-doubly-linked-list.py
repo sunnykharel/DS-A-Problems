@@ -10,7 +10,6 @@ class Node:
 class Solution:
     def make_ll_doubly_linked(self, start):
         prev = start
-        # print(start.val)
         if not prev:
             return start
         while prev.right:
@@ -40,7 +39,6 @@ class Solution:
                 prev.right = curr
                 prev = curr
             curr = curr.right
-        # print(start.val)
         
         return self.make_ll_doubly_linked(start)
     def in_order_traversal_recursive(self, root):

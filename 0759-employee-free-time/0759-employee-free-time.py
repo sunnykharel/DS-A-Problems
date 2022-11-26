@@ -20,8 +20,6 @@ class Solution:
         print("###")
     
     def get_interval_overlaps(self, interval1, interval2):
-        # self.print_interval(interval1)
-        # self.print_interval(interval2)
         a = interval1
         b = interval2
         start, end = 0,0
@@ -68,7 +66,6 @@ class Solution:
             
     
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
-
         schedule = [self.workToFreeTime(sched) for sched in schedule]
         while len(schedule) >= 2:
             sched_1 = schedule.pop()

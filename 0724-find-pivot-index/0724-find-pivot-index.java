@@ -12,8 +12,6 @@ class Solution {
         int[] rightToLeft = new int[n];
         rightToLeft[n-1] = nums[n-1];
         leftToRight[0] = nums[0];
-        
-        
         for(int i=1; i < n; i++){
             leftToRight[i] += nums[i] + leftToRight[i-1];
             rightToLeft[(n-i)-1] += nums[(n-i)-1] + rightToLeft[n-i];
